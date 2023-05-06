@@ -1,15 +1,13 @@
 package tn.esprit.ds.skielazrak.Entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.List;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,16 +17,17 @@ import java.util.List;
 public class Skieur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long numSkieur;
-    private String nomS;
+    public Long numSkieur;
+    public String nomS;
     private String prenomS;
-    private LocalDate dateNaissance;
-    private String ville;
-    @ManyToMany(mappedBy = "skieurs")
-    @JsonIgnore
-    private List<Piste> pistes;
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @Temporal(TemporalType.DATE)
+
+    public Date dateNaissance;
+    public String ville;
+    @ManyToMany
+    public Set<Piste> pistes;
+@OneToMany(mappedBy = "skieur", cascade= CascadeType.REMOVE)
+   private Set<Inscription> inscriptions;
+@OneToOne
     private Abonnement abonnement;
-    @OneToMany(mappedBy = "skieur")
-    private List<Inscription> inscription;
 }

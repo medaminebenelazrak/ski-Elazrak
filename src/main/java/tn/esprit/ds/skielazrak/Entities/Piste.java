@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -16,12 +16,17 @@ import java.util.List;
 public class Piste {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long numPiste;
-    private String nomPiste;
+    public Long idPiste;
+    public Long numPiste;
+    public String nomPiste;
     @Enumerated(EnumType.STRING)
-    private Couleur couleur;
-    private int longeur;
-    private int pente;
-    @ManyToMany()
-    private List<Skieur> skieurs;
+    public Couleur couleur;
+    public int longueur;
+    public int pente;
+    @ManyToMany(mappedBy = "pistes")
+    public Set<Skieur> skieurs;
+
+
+
+
 }

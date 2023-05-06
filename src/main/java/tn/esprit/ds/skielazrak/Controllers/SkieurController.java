@@ -1,45 +1,48 @@
 package tn.esprit.ds.skielazrak.Controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.ds.skielazrak.Entities.Skieur;
-import tn.esprit.ds.skielazrak.Repositories.PisteRepository;
-import tn.esprit.ds.skielazrak.Services.ISkieurService;
+import tn.esprit.ds.skielazrak.Entities.TypeAbonnement;
+import tn.esprit.ds.skielazrak.Services.IServiceSkieur;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/skieur")
+@AllArgsConstructor
+@RequestMapping("skieur")
 public class SkieurController {
-    @Autowired
-    ISkieurService skieurService;
-    @GetMapping
-    public List<Skieur> getAll(){
-        return skieurService.retrieveAllSkieurs();
-    }
-    @GetMapping("/{numSkieur}")
-    public Skieur retrieveSkieur (@PathVariable Long numSkieur){
-        return skieurService.retrieveSkieur(numSkieur);
-    }
-    @PostMapping
-    public Skieur postSkieur(@RequestBody Skieur skieur){
-        return skieurService.addSkieur(skieur);
-    }
-    @PutMapping
-    public Skieur updateSkieur(@RequestBody Skieur skieur){
-        return skieurService.updateSkieur(skieur);
-    }
-    @DeleteMapping("/{id}")
-    public void removeSkieur (@PathVariable(name = "id") Long numSkieur){
-        skieurService.removeSkieur(numSkieur);
-    }
-    @PutMapping("/{numSkieur}/{numPiste}")
-    public Skieur assignSkierToPiste(@PathVariable Long numSkieur,@PathVariable Long numPiste){
-        return skieurService.assignSkierToPiste(numSkieur,numPiste);
+    private IServiceSkieur iServiceSkieur;
+    @PostMapping("/ajoutit")
+    public Skieur ajout(@RequestBody Skieur skieur) {
+        return iServiceSkieur.add(skieur);
     }
 
-    @PutMapping("skiAbon/{numSkieur}/{numAbon}")
-    public Skieur AssignSkierToSubscription(@PathVariable Long numSkieur,@PathVariable Long numAbon){
-        return skieurService.AssignSkierToSubscription(numSkieur,numAbon);
+    @PostMapping("/updaasi")
+    public Skieur update(@RequestBody Skieur skieur) {
+        return iServiceSkieur.update(skieur);
     }
+
+    @GetMapping("/skieur/{idsssi}")
+    public Skieur findOne(@PathVariable("idsssi") Long numSkieur) {
+        return iServiceSkieur.findOne(numSkieur);
+
+    }
+
+    @GetMapping("/findAlki")
+    public List<Skieur> findAll() {
+        return iServiceSkieur.findAll();
+    }
+
+    @DeleteMapping("/skieuer/{idqsi}")
+    public void delete(@PathVariable ("idqsi") Long numSkieur) {
+        iServiceSkieur.delete(numSkieur);
+
+    }
+    @PostMapping("/assignski/{numSkieur}/{numPiste}")
+    public Skieur assignSkierToPiste(@PathVariable ("numSkieur") Long numSkieur,@PathVariable("numPiste") Long numPiste) {return  iServiceSkieur.assignSkierToPiste(numSkieur,numPiste);}
+    @PostMapping("/addskieueur2/{numCourse}")
+    public Skieur addSkierAndAssignToCourse(@RequestBody Skieur skier,@PathVariable("numCourse") Long numCourse) {return  iServiceSkieur.addSkierAndAssignToCourse(skier,numCourse);}
+    @GetMapping("/retreiveskiebysubsc/{typeAbonnement}")
+    public List<Skieur> retrieveSkiersBySubscriptionType(@PathVariable("typeAbonnement") TypeAbonnement typeAbonnement) {return iServiceSkieur.retrieveSkiersBySubscriptionType(typeAbonnement);}
 }

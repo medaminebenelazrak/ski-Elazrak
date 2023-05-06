@@ -1,34 +1,17 @@
 package tn.esprit.ds.skielazrak.Controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import tn.esprit.ds.skielazrak.Entities.Moniteur;
-import tn.esprit.ds.skielazrak.Services.IMoniteurService;
+import tn.esprit.ds.skielazrak.Services.IServiceMoniteur;
 
-import java.util.List;
 @RestController
-@RequestMapping("/moniteur")
+@AllArgsConstructor
 public class MoniteurController {
-    @Autowired
-    IMoniteurService moniteurService;
-    @GetMapping
-    public List<Moniteur> getAll(){
-        return moniteurService.retrieveAllMoniteurs();
-    }
-    @GetMapping("/{numMoniteur}")
-    public Moniteur retrieveMoniteur (@PathVariable Long numMoniteur){
-        return moniteurService.retrieveMoniteur(numMoniteur);
-    }
-    @PostMapping
-    public Moniteur postMoniteur(@RequestBody Moniteur moniteur){
-        return moniteurService.addMoniteur(moniteur);
-    }
-    @PutMapping
-    public Moniteur updateMoniteur(@RequestBody Moniteur moniteur){
-        return moniteurService.updateMoniteur(moniteur);
-    }
-    @DeleteMapping("/{id}")
-    public void removeMoniteur (@PathVariable(name = "id") Long numMoniteur){
-        moniteurService.removeMoniteur(numMoniteur);
-    }
+    private IServiceMoniteur iServiceMoniteur;
+    @PostMapping("/addinstructor/{numCourse}")
+    public Moniteur addInstructorAndAssignToCourse(@RequestBody Moniteur moniteur,@PathVariable("numCourse") Long numCourse) {return  iServiceMoniteur.addInstructorAndAssignToCourse(moniteur,numCourse);}
 }

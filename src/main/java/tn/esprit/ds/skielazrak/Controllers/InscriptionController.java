@@ -1,34 +1,50 @@
 package tn.esprit.ds.skielazrak.Controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.ds.skielazrak.Entities.Inscription;
-import tn.esprit.ds.skielazrak.Services.IInscriptionService;
+import tn.esprit.ds.skielazrak.Services.IServiceInscription;
 
 import java.util.List;
+
 @RestController
-@RequestMapping("/inscription")
+@AllArgsConstructor
 public class InscriptionController {
-    @Autowired
-    IInscriptionService inscriptionService;
-    @GetMapping
-    public List<Inscription> getAll(){
-        return inscriptionService.retrieveAllInscriptions();
+    private IServiceInscription iServiceInscription;
+    @PostMapping("/ajouttt")
+    public Inscription ajout(@RequestBody Inscription inscription) {
+        return iServiceInscription.add(inscription);
     }
-    @GetMapping("/{numInscription}")
-    public Inscription retrieveInscription (@PathVariable Long numInscription){
-        return inscriptionService.retrieveInscription(numInscription);
+
+    @PostMapping("/upda")
+    public Inscription update(@RequestBody Inscription inscription) {
+        return iServiceInscription.update(inscription);
     }
-    @PostMapping
-    public Inscription postInscription(@RequestBody Inscription inscription){
-        return inscriptionService.addInscription(inscription);
+
+    @GetMapping("/inscri/{idss}")
+    public Inscription findOne(@PathVariable("idss") Long numInscription) {
+        return iServiceInscription.findOne(numInscription);
+
     }
-    @PutMapping
-    public Inscription updateInscription(@RequestBody Inscription inscription){
-        return inscriptionService.updateInscription(inscription);
+
+    @GetMapping("/findAl")
+    public List<Inscription> findAll() {
+        return iServiceInscription.findAll();
     }
-    @DeleteMapping("/{id}")
-    public void removeInscription (@PathVariable(name = "id") Long numInscription){
-        inscriptionService.removeInscription(numInscription);
+
+    @DeleteMapping("/insc/{idq}")
+    public void delete(@PathVariable ("idq") Long numInscription) {
+        iServiceInscription.delete(numInscription);
+
     }
+    @PostMapping("/ajoutinscription/{numSkier}")
+    public Inscription addRegistrationAndAssignToSkier(@RequestBody Inscription inscription,@PathVariable("numSkier") Long numSkier) {
+        return iServiceInscription.addRegistrationAndAssignToSkier(inscription,numSkier);
+    }
+    @PostMapping("/assignregist/{numRegistration}/{numCourse}")
+    public Inscription assignRegistrationToCourse(@PathVariable("numRegistration") Long numRegistration,@PathVariable("numCourse") Long numCourse){
+        return iServiceInscription.assignRegistrationToCourse(numRegistration,numCourse);
+    }
+    @PostMapping("/addregistration3/{numSkieur}/{numCours}")
+    public Inscription addRegistrationAndAssignToSkierAndCourse(@RequestBody Inscription inscription,@PathVariable("numSkieur") Long numSkieur,@PathVariable("numCours") Long numCours) {return  iServiceInscription.addRegistrationAndAssignToSkierAndCourse(inscription,numSkieur,numCours);}
 }

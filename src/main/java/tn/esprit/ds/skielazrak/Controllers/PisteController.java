@@ -1,35 +1,40 @@
 package tn.esprit.ds.skielazrak.Controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.ds.skielazrak.Entities.Piste;
-import tn.esprit.ds.skielazrak.Services.IPisteService;
+import tn.esprit.ds.skielazrak.Services.IServicePiste;
 
 import java.util.List;
+
 @RestController
-@RequestMapping("/piste")
+@AllArgsConstructor
 public class PisteController {
-    @Autowired
-    IPisteService pisteService;
-    @GetMapping
-    public List<Piste> getAll(){
-        return pisteService.retrieveAllPistes();
-    }
-    @GetMapping("/{numPiste}")
-    public Piste retrievePiste (@PathVariable Long numPiste){
-        return pisteService.retrievePiste(numPiste);
-    }
-    @PostMapping
-    public Piste postPiste(@RequestBody Piste piste){
-        return pisteService.addPiste(piste);
-    }
-    @PutMapping
-    public Piste updatePiste(@RequestBody Piste piste){
-        return pisteService.updatePiste(piste);
-    }
-    @DeleteMapping("/{id}")
-    public void removePiste (@PathVariable(name = "id") Long numPiste){
-        pisteService.removePiste(numPiste);
+    private IServicePiste iServicePiste;
+    @PostMapping("/ajoutt")
+    public Piste ajout(@RequestBody Piste piste) {
+        return iServicePiste.add(piste);
     }
 
+    @PostMapping("/updaas")
+    public Piste update(@RequestBody Piste piste) {
+        return iServicePiste.update(piste);
+    }
+
+    @GetMapping("/piste/{idsss}")
+    public Piste findOne(@PathVariable("idsss") Long idPiste) {
+        return iServicePiste.findOne(idPiste);
+
+    }
+
+    @GetMapping("/findAlk")
+    public List<Piste> findAll() {
+        return iServicePiste.findAll();
+    }
+
+    @DeleteMapping("/zarga/{idqs}")
+    public void delete(@PathVariable ("idqs") Long idPiste) {
+        iServicePiste.delete(idPiste);
+
+    }
 }

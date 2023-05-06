@@ -1,17 +1,30 @@
 package tn.esprit.ds.skielazrak.Entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.util.List;
+import java.util.Date;
+import java.util.Set;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Moniteur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long numMoniteur;
-    private String nomM;
-    private String prenomM;
-    private LocalDate dateRecru;
-    @OneToMany()
-    private List<Cours> cours;
+    public Long numMon;
+    public String nomM;
+    public String prenomM;
+    @Temporal(TemporalType.DATE)
+
+    public Date dateRecru;
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Cours> cours;
+
+
 }

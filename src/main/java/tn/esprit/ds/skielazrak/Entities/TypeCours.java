@@ -1,5 +1,5 @@
 package tn.esprit.ds.skielazrak.Entities;
 
 public enum TypeCours {
-    COLLECTIF_ENFANT,COLLECTIF_PARENT,PARTICULIER
+    COLLECTIF_ADULTE,COLLECTIF_ENFANT,PARTICULIER
 }
